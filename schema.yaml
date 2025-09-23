@@ -4,10 +4,10 @@ x-google-marketplace:
   applicationApiVersion: v1beta1
   # The published version is required and MUST match the tag
   # of the deployer image
-  publishedVersion: '4.4.0'
+  publishedVersion: '4.4'
   publishedVersionMetadata:
     releaseNote: >-
-      vCluster Platform v4.4.0
+      vCluster Platform v4.4
   # The images property will be filled in during part 2
   images: {}
 

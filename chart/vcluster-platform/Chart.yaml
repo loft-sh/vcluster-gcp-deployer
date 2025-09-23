@@ -1,0 +1,25 @@
+apiVersion: v2
+description: vCluster Platform - Virtual Kubernetes Clusters
+home: https://loft.sh
+icon: https://static.loft.sh/loft/logo/loft-logo.svg
+keywords:
+- developer
+- development
+- sharing
+- share
+- multi-tenancy
+- tenancy
+- cluster
+- space
+- namespace
+- vcluster
+- vclusters
+maintainers:
+- email: info@loft.sh
+  name: Loft Labs, Inc.
+  url: https://twitter.com/loft_sh
+name: vcluster-platform
+sources:
+- https://github.com/loft-sh/loft
+type: application
+version: 4.4.0

@@ -4,12 +4,23 @@ x-google-marketplace:
   applicationApiVersion: v1beta1
   # The published version is required and MUST match the tag
   # of the deployer image
-  publishedVersion: '4.4'
+  publishedVersion: '4.4.0'
   publishedVersionMetadata:
     releaseNote: >-
-      vCluster Platform v4.4
+      vCluster Platform v4.4.0
   # The images property will be filled in during part 2
   images: {}
+  clusterPermissions:
+    - rules:
+        - apiGroups: ["apiregistration.k8s.io"]
+          resources: ["apiservices"]
+          # Least-privilege: scope to the exact APIService name if possible
+          #resourceNames: ["v1.management.loft.sh"]   # <- narrow if you can
+          verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+    - rules:
+        - apiGroups: ["rbac.authorization.k8s.io"]
+          resources: ["clusterrolebindings"]
+          verbs: ["get","list","watch","create","update","patch"]
 
 properties:
   name:

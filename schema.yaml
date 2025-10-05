@@ -21,6 +21,19 @@ x-google-marketplace:
         - apiGroups: ["rbac.authorization.k8s.io"]
           resources: ["clusterrolebindings"]
           verbs: ["get","list","watch","create","update","patch"]
+  deployerServiceAccount:
+    description: >
+      Service account for deployer
+    roles:
+    - type: ClusterRole
+      rulesType: CUSTOM
+      rules:
+      - apiGroups: ["rbac.authorization.k8s.io", "clusterroles.rbac.authorization.k8s.io"]
+        resources: ["*"]
+        verbs: ["*"]
+      - apiGroups: ["apiregistration.k8s.io", "apiservices.apiregistration.k8s.io"]
+        resources: ["*"]
+        verbs: ["*"]
 
 properties:
   name:

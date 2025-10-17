@@ -14,14 +14,22 @@ gcloud artifacts repositories add-iam-policy-binding $APP_NAME \
   --role="roles/artifactregistry.reader" \
   --project=$PROJECT_ID
 
+# Grant registry access to GCP marketplace service account
+gcloud artifacts repositories add-iam-policy-binding $APP_NAME \
+  --location=$REGION \
+  --member="serviceAccount:cloud-commerce-producer@system.gserviceaccount.com" \
+  --role="roles/artifactregistry.reader" \
+  --project=$PROJECT_ID
+
 # Build and push image
 docker buildx build \
       --platform linux/amd64,linux/arm64,linux/arm/v7 \
       --tag ${IMAGE}:${TAG} \
+      --tag "${IMAGE}:${TAG}.0" \
       --push .
 ```
 
-## Test
+## Test: Verify
 ```
 docker pull gcr.io/cloud-marketplace-tools/k8s/dev
 
@@ -35,21 +43,31 @@ kubectl apply -f "https://raw.githubusercontent.com/GoogleCloudPlatform/marketpl
 
 $BIN_FILE /scripts/doctor
 
-export NAMESPACE=test-2
+$BIN_FILE verify \
+  --deployer=$IMAGE:$TAG
+```
+
+
+## Test: Manual Deployment
+```
+export NAMESPACE=test-1
 kubectl create namespace $NAMESPACE
 
 $BIN_FILE install \
   --deployer=$IMAGE:$TAG \
   --parameters='{"name": "test-deployment", "namespace": "'$NAMESPACE'"}'
 
-# Check logs
 kubectl get po --all-namespaces
 kubectl logs -n $NAMESPACE ...
 
-# Check RBAC
 kubectl get clusterrolebindings | grep -i deployer
 kubectl get clusterrolebindings -o json | jq -r '
   .items[] | select(.subjects[]? |
     .kind=="ServiceAccount" and .name=="test-deployment-deployer-sa" and .namespace=="$NAMESPACE") |
   .metadata.name'
+```
+
+## View schema.yaml
+```
+docker run --rm --entrypoint "" -it $IMAGE:$TAG cat /data/schema.yaml
 ```

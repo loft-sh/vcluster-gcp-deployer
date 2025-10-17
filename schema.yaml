@@ -9,7 +9,13 @@ x-google-marketplace:
     releaseNote: >-
       vCluster Platform v4.4.0
   # The images property will be filled in during part 2
-  images: {}
+  images:
+    '':  # Primary image has no name.
+      properties:
+        imageRepo:
+          type: REPO_WITH_REGISTRY
+        imageTag:
+          type: TAG
   clusterPermissions:
     - rules:
         - apiGroups: ["apiregistration.k8s.io"]
@@ -32,6 +38,9 @@ x-google-marketplace:
         resources: ["*"]
         verbs: ["*"]
       - apiGroups: ["apiregistration.k8s.io", "apiservices.apiregistration.k8s.io"]
+        resources: ["*"]
+        verbs: ["*"]
+      - apiGroups: ["admissionregistration.k8s.io", "mutatingwebhookconfigurations.admissionregistration.k8s.io"]
         resources: ["*"]
         verbs: ["*"]
 

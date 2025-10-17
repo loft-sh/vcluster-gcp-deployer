@@ -1,4 +1,4 @@
-## Build & Push
+## Run before doing anything below
 ```
 export PROJECT_ID=$(gcloud config get-value project | tr ':' '/')
 export REGION=us
@@ -6,7 +6,10 @@ export REGISTRY=${REGION}-docker.pkg.dev/${PROJECT_ID}
 export APP_NAME=vcluster-platform
 export IMAGE=${REGISTRY}/${APP_NAME}/deployer
 export TAG="4.4"
+```
 
+## Build & Push
+```
 # Make registry public
 gcloud artifacts repositories add-iam-policy-binding $APP_NAME \
   --location=$REGION \
